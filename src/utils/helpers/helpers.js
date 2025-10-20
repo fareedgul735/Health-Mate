@@ -102,7 +102,7 @@ export const resetPassword = (data) => {
   try {
     const res = axios.post(
       ResetPassword,
-      { data },
+      data,
       {
         headers: {
           "Content-Type": "application/json",
