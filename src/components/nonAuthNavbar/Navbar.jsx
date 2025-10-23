@@ -1,14 +1,34 @@
-import { WEBLOGO } from "../../assets/labels/logo";
+import { Link } from "react-router-dom";
+import { CustomButton } from "../button/Button.jsx";
+import { LogoIcon } from "../icons/Icons.jsx";
 
 const Navbar = () => {
   return (
-    <div className="container">
-      <img
-        src={WEBLOGO}
-        alt="healthMade"
-        className="h-14 md:h-16 lg:h-20 w-auto object-contain"
-      />
-    </div>
+    <nav className="w-full flex justify-between items-center py-6 px-6 md:px-20">
+      <div className="flex items-center space-x-2">
+        <div className="w-8 h-8 bg-gradient-to-r from-sky-400 to-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+          <LogoIcon />
+        </div>
+        <h1 className="font-bold text-xl text-gray-800">
+          HealthMate{" "}
+          <span className="text-sky-600 text-sm">Sehat ka Smart Dost</span>
+        </h1>
+      </div>
+      <div className="flex space-x-3">
+        <Link to={"login"}>
+          <CustomButton
+            value={"Signin"}
+            className="hover:!scale-95 active:!scale-90"
+          />
+        </Link>
+        <Link to={"signup"}>
+          <CustomButton
+            value={" Create account"}
+            className="hover:!scale-95 active:!scale-90"
+          />
+        </Link>
+      </div>
+    </nav>
   );
 };
 

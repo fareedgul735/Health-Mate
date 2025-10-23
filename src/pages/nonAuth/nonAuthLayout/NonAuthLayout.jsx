@@ -7,8 +7,8 @@ import useNonAuthRedirect from "../../../hooks/NonAuth.jsx";
 const NonAuthLayout = () => {
   useNonAuthRedirect();
   return (
-    <div className="min-h-screen w-screen flex flex-col">
-      <div className="w-full fixed h-[82px] flex items-center justify-between px-4 shadow-md">
+    <div className="min-h-screen bg-gradient-to-b from-sky-50 via-blue-50 to-white w-screen flex flex-col">
+      <div className="w-full  h-[82px] flex items-center justify-between px-4 ">
         <Navbar />
       </div>
       <div className="flex flex-1 items-center">
@@ -16,7 +16,7 @@ const NonAuthLayout = () => {
           <Outlet />
         </div>
       </div>
-      <div className="w-screen border-t border-gray-300 h-[82px] flex items-center justify-between px-4 shadow-md">
+      <div>
         <Footer />
       </div>
     </div>

@@ -3,6 +3,9 @@ import CustomInput from "../components/input/Input.jsx";
 import PasswordInput from "../components/input/PasswordInput.jsx";
 import { OTPPattern, PasswordPattern, UserName } from "./pattern.js";
 import { MdEmail, MdPersonOutline, MdSecurity } from "react-icons/md";
+
+import { GiArtificialIntelligence } from "react-icons/gi";
+import { FaFileMedical, FaChartLine, FaLock } from "react-icons/fa";
 // import {
 //   FaTachometerAlt,
 //   FaUpload,
@@ -193,4 +196,80 @@ export const ForgetPasswordSteps = [
       },
     ],
   },
+];
+
+export const featuresData = [
+  {
+    id: 1,
+    icon: <FaFileMedical className="text-3xl text-sky-600" />,
+    title: "Upload Your Reports",
+    desc: "Easily upload your medical reports in seconds — PDFs, photos, or scanned copies.",
+  },
+  {
+    id: 2,
+    icon: <GiArtificialIntelligence className="text-3xl text-sky-600" />,
+    title: "AI Health Insights",
+    desc: "Our AI reads and explains your reports in simple words so your family can understand.",
+  },
+  {
+    id: 3,
+    icon: <FaChartLine className="text-3xl text-sky-600" />,
+    title: "Track Your Progress",
+    desc: "See how your health improves over time with graphs, insights, and suggestions.",
+  },
+  {
+    id: 4,
+    icon: <FaLock className="text-3xl text-sky-600" />,
+    title: "Safe Cloud Storage",
+    desc: "All your reports stay encrypted and accessible whenever your doctor needs them.",
+  },
+];
+
+export const stepsData = [
+  {
+    step: 1,
+    title: "Sign Up Free",
+    desc: "Create your free HealthMate account in less than a minute.",
+  },
+  {
+    step: 2,
+    title: "Upload Reports",
+    desc: "Add your old or new medical reports — AI will automatically read them.",
+  },
+  {
+    step: 3,
+    title: "AI Explains It",
+    desc: "Get a clear summary of your condition, vitals, and important health points.",
+  },
+  {
+    step: 4,
+    title: "Share with Doctor",
+    desc: "Whenever needed, show your digital reports to your doctor instantly.",
+  },
+];
+
+export const faqData = [
+  {
+    q: "Is my data secure?",
+    a: "Yes, all data is end-to-end encrypted and never shared with anyone without your permission.",
+  },
+  {
+    q: "Can I access my old reports anytime?",
+    a: "Absolutely. You can view, download, or share your old reports anytime through your dashboard.",
+  },
+  {
+    q: "Do I need medical knowledge to use this?",
+    a: "Not at all — AI explains everything in simple, easy-to-understand language.",
+  },
+  {
+    q: "Is this free?",
+    a: "Yes, HealthMate starts free for all users with optional premium features later.",
+  },
+];
+
+export const features = [
+  "Unlimited uploads",
+  "Bilingual summaries (EN + Roman Urdu)",
+  "Manual vitals tracker",
+  "Secure sharing for doctors",
 ];

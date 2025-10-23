@@ -1,5 +1,6 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import { BiLogIn } from "react-icons/bi";
+import { FaHeartbeat } from "react-icons/fa";
 
 const LoginIcon = () => {
   return (
@@ -19,6 +20,14 @@ const RightArrow = () => {
   return (
     <div>
       <ArrowRightOutlined />
+    </div>
+  );
+};
+
+export const LogoIcon = () => {
+  return (
+    <div>
+      <FaHeartbeat />
     </div>
   );
 };
