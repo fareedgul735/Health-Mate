@@ -8,7 +8,7 @@ const NonAuthLayout = () => {
   useNonAuthRedirect();
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-50 via-blue-50 to-white w-screen flex flex-col">
-      <div className="w-full h-[82px] flex items-center justify-between px-4 ">
+      <div className="w-full cursor-pointer h-[82px] flex items-center justify-between px-4 ">
         <Navbar />
       </div>
       <div className="flex flex-1 items-center">
