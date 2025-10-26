@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { Drawer } from "antd";
-import { FaBars } from "react-icons/fa";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { WEBLOGO } from "../../assets/labels/logo.js";
 import { CustomButton } from "../button/Button.jsx";
-import { LoginIcon } from "../icons/Icons.jsx";
+import { LoginIcon, LogoIcon } from "../icons/Icons.jsx";
 import logoutHandler from "../../functions/LogoutHandler.js";
 import { Links } from "../../lib/constants.jsx";
 
@@ -17,13 +15,15 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="w-full h-[120px] shadow-md p-3 flex justify-between items-center md:p-4 lg:p-5 bg-white">
-        <div className="flex items-center">
-          <img
-            src={WEBLOGO}
-            alt="healthMade"
-            className="h-14 md:h-16 lg:h-20 w-auto object-contain"
-          />
+      <div className="w-screen  p-3 flex justify-between items-center md:p-4 lg:p-5">
+        <div className="flex items-center space-x-2 slide-up">
+          <div className="w-8 h-8 bg-gradient-to-r from-sky-400 to-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+            <LogoIcon />
+          </div>
+          <h1 className="font-bold text-xl text-gray-800">
+            HealthMate{" "}
+            <span className="text-sky-600 text-sm">Sehat ka Smart Dost</span>
+          </h1>
         </div>
 
         <div className="flex gap-[12px] text-blue-700 md:none">
@@ -34,11 +34,11 @@ const Navbar = () => {
           ))}
         </div>
 
-        <CustomButton
+        {/* <CustomButton
           icon={<FaBars />}
           onClick={showDrawer}
           className="flex items-center justify-center text-2xl text-gray-700 lg:hidden"
-        />
+        /> */}
       </div>
 
       <Drawer
@@ -47,12 +47,14 @@ const Navbar = () => {
         open={open}
         placement="left"
         title={
-          <div className="flex items-center gap-2 text-lg font-semibold text-gray-800">
-            <img
-              src={WEBLOGO}
-              alt="healthMade"
-              className="h-14 md:h-16 lg:h-20 w-auto object-contain"
-            />
+          <div className="flex items-center space-x-2 slide-up">
+            <div className="w-8 h-8 bg-gradient-to-r from-sky-400 to-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+              <LogoIcon />
+            </div>
+            <h1 className="font-bold text-xl text-gray-800">
+              HealthMate{" "}
+              <span className="text-sky-600 text-sm">Sehat ka Smart Dost</span>
+            </h1>
           </div>
         }
         className="custom-drawer"

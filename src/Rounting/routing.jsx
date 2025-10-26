@@ -11,6 +11,7 @@ import TimeLineView from "../pages/auth/timeLineView/TimeLineView.jsx";
 import Dashboard from "../pages/auth/dashboard/DashboardLayout.jsx";
 import UploadReport from "../pages/auth/uploadReport/UploadReports.jsx";
 import LandingPage from "../pages/nonAuth/landing/Landing.jsx";
+import NonAutherized from "../pages/nonAuth/nonAutherized/NonAutherized.jsx";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,13 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Navigate to={"health_mate"} replace /> },
       { path: "health_mate", element: <LandingPage /> },
+    ],
+  },
+  {
+    path: "/",
+    element: <NonAutherized />,
+    children: [
+      { index: true, element: <Navigate to={"login"} replace /> },
       { path: "login", element: <Login /> },
       { path: "signup", element: <Signup /> },
       { path: "forgottenPassword", element: <ForgetPassword /> },

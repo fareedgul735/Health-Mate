@@ -17,6 +17,7 @@ import {
   LoginIcon,
   RightArrow,
 } from "../../../components/icons/Icons";
+import { FaCheckCircle, FaLock } from "react-icons/fa";
 
 const ForgetPassword = () => {
   const [form] = Form.useForm();
@@ -115,13 +116,51 @@ const ForgetPassword = () => {
   };
 
   return (
-    <div className="w-full min-h-screen p-[12px] gap-[22px] flex flex-col justify-center items-center">
+    <div className="min-w-screen p-[12px] gap-[122px] flex  justify-center items-center">
       {contextHolder}
-      <div className="form p-6 md:p-8 w-screen max-w-md mx-auto">
-        <h2 className="font-bold text-2xl text-gray-800 mb-6 text-center">
-          Forgot Password in Health Mate
-        </h2>
+      <div className="information-forgot w-[50%] slide-right">
+        <div className="mb-6">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
+            Forgot your password?
+          </h2>
+          <p className="text-gray-600 mt-1">
+            No worries — HealthMate will help you recover access in a few simple
+            steps.
+          </p>
+        </div>
 
+        <ul className="space-y-4 mb-8">
+          <li className="flex items-start gap-3">
+            <FaCheckCircle className="w-5 h-5 text-sky-500 mt-[2px]" />
+            <span className="text-gray-700">
+              Enter your registered <b>email address</b> to receive a password
+              reset link.
+            </span>
+          </li>
+          <li className="flex items-start gap-3">
+            <FaCheckCircle className="w-5 h-5 text-sky-500 mt-[2px]" />
+            <span className="text-gray-700">
+              Click the secure link sent to your inbox to set a{" "}
+              <b>new password</b>.
+            </span>
+          </li>
+          <li className="flex items-start gap-3">
+            <FaCheckCircle className="w-5 h-5 text-sky-500 mt-[2px]" />
+            <span className="text-gray-700">
+              Your account data stays <b>safe and encrypted</b> during this
+              process.
+            </span>
+          </li>
+        </ul>
+        <div className="border border-blue-100 bg-blue-50 rounded-2xl p-5 flex items-start gap-3 shadow-sm">
+          <FaLock className="w-5 h-5 text-blue-600 mt-[2px]" />
+          <p className="text-gray-600 text-sm">
+            For your security, HealthMate never stores plain-text passwords. All
+            resets are fully encrypted and time-limited.
+          </p>
+        </div>
+      </div>
+      <div className="form w-[30%] slide-left">
         <Form form={form} onFinish={handleNext} layout="vertical">
           <div className="space-y-10">
             <Form.Item
@@ -131,7 +170,10 @@ const ForgetPassword = () => {
               validateTrigger="onChange"
               rules={currentStep.rules}
             >
-              <currentStep.component placeholder={currentStep.label} />
+              <currentStep.component
+                className={"slide-left"}
+                placeholder={currentStep.label}
+              />
             </Form.Item>
 
             <div
@@ -141,12 +183,14 @@ const ForgetPassword = () => {
             >
               {steps > 0 && (
                 <CustomButtonTwin
+                  className="hover:!scale-95 active:!scale-90"
                   icon={<LeftArrow />}
                   value="Back"
                   onClick={handlePrevious}
                 />
               )}
               <CustomButton
+                className="hover:!scale-95 active:!scale-90"
                 htmlType="button"
                 icon={
                   isLoading ? (
@@ -181,7 +225,7 @@ const ForgetPassword = () => {
             <span>Back to ?</span>{" "}
             <Link
               to="/login"
-              className="text-blue-700 font-medium hover:text-blue-500 hover:underline"
+              className="text-blue-700 text-[16px] hover:text-blue-500 hover:underline"
             >
               Login
             </Link>
