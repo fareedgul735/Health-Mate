@@ -7,6 +7,7 @@ import {
   sendOtpForgetPassword,
   SigninUser,
   SignupUser,
+  UploadReportAi,
 } from "../../lib/API";
 
 export const UserSignup = async (payload) => {
@@ -124,5 +125,19 @@ export const getuserName = async () => {
   } catch (err) {
     console.error("Error fetching username:", err);
     throw err;
+  }
+};
+
+export const uploadReportAiInfo = async (data) => {
+  try {
+    const res = await axios.post(UploadReportAi, data, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log(res);
+    return res;
+  } catch (err) {
+    console.log(err);
   }
 };

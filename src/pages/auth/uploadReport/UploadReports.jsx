@@ -1,30 +1,30 @@
-import { useState } from "react";
 import { Form, Input, DatePicker, Upload, Card, Divider, message } from "antd";
 import { UploadOutlined, SendOutlined } from "@ant-design/icons";
 import { CustomButton } from "../../../components/button/Button.jsx";
 import CustomInput from "../../../components/input/Input.jsx";
+import { uploadReportAiInfo } from "../../../utils/helpers/helpers.js";
 
 const { TextArea } = Input;
 
 const UploadReports = () => {
   const [form] = Form.useForm();
-  const [aiPrompt, setAiPrompt] = useState("");
+  const [messageApi, contextHolder] = message.useMessage();
 
   const handleSend = async () => {
     try {
-      await form.validateFields();
-
-      const values = form.getFieldsValue();
-      console.log(values);
+      const values = await form.validateFields();
+      const res = await uploadReportAiInfo(values);
+      console.log(res);
+      messageApi.success("Report validated successfully! Sending to AI...");
       form.resetFields();
-      message.success("Report validated successfully! Sending to AI...");
     } catch (errorInfo) {
-      message.error("Please fill all required fields before sending!");
+      messageApi.error("Please fill all required fields before sending!");
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 to-blue-100 p-8">
+      {contextHolder}
       <div className="max-w-5xl mx-auto space-y-8">
         <h1 className="text-3xl font-bold text-gray-800 text-center">
           <UploadOutlined /> Upload Medical Report
@@ -33,7 +33,7 @@ const UploadReports = () => {
         <Card className="rounded-2xl shadow-lg border-none bg-white/80 backdrop-blur-sm">
           <Form form={form} layout="vertical">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Form.Item name="title" label="Title (optional)" rules={[]}>
+              <Form.Item name="title" label="Title (optional)">
                 <CustomInput placeholder="e.g., Ultrasound Abdomen" />
               </Form.Item>
 
@@ -46,15 +46,14 @@ const UploadReports = () => {
               </Form.Item>
 
               <Form.Item
-                label="Files (optional, multiple)"
                 name="files"
+                label="Files (optional, multiple)"
                 className="md:col-span-2"
               >
-                <Upload multiple>
+                <Upload multiple beforeUpload={() => false}>
                   <CustomButton
-                    value="Choose Files"
+                    value={"Choose Files"}
                     icon={<UploadOutlined />}
-                    size="middle"
                   />
                 </Upload>
               </Form.Item>
@@ -109,45 +108,46 @@ const UploadReports = () => {
             </Divider>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-              <Form.Item name="systolic">
+              <Form.Item name="systolic" label="BP Systolic (mmHg)">
                 <CustomInput placeholder="BP Systolic (mmHg)" />
               </Form.Item>
-              <Form.Item name="diastolic">
+              <Form.Item name="diastolic" label="BP Diastolic (mmHg)">
                 <CustomInput placeholder="BP Diastolic (mmHg)" />
               </Form.Item>
-              <Form.Item name="temperature">
+              <Form.Item name="temperature" label="Temperature (°F)">
                 <CustomInput placeholder="Temperature (°F)" />
               </Form.Item>
-              <Form.Item name="sugar">
+              <Form.Item name="sugar" label="Fasting Sugar (mg/dL)">
                 <CustomInput placeholder="Fasting Sugar (mg/dL)" />
               </Form.Item>
-              <Form.Item name="height">
+              <Form.Item name="height" label="Height (cm)">
                 <CustomInput placeholder="Height (cm)" />
               </Form.Item>
-              <Form.Item name="weight">
+              <Form.Item name="weight" label="Weight (kg)">
                 <CustomInput placeholder="Weight (kg)" />
               </Form.Item>
             </div>
 
             <Divider className="!my-8 text-pink-500">Ask HealthMate AI</Divider>
-            <div className="relative mt-4">
-              <Form.Item
-                name="aiPrompt"
-                validateStatus={!aiPrompt.trim() ? "error" : ""}
-                help={!aiPrompt.trim() ? "Please describe your issue." : ""}
-              >
-                <CustomInput
-                  placeholder="Describe your issue... (e.g., I have dizziness and high BP readings)"
-                  value={aiPrompt}
-                  onChange={(e) => setAiPrompt(e.target.value)}
-                  className="pr-12 py-3 rounded-full"
-                />
-              </Form.Item>
-            </div>
-            <div className="flex justify-end gap-3 mt-10">
+
+            <Form.Item
+              name="aiPrompt"
+              label="Describe your issue"
+              rules={[
+                { required: true, message: "Please describe your issue." },
+              ]}
+            >
+              <CustomInput
+                placeholder="e.g., I have dizziness and high BP readings"
+                className="py-3 rounded-full"
+              />
+            </Form.Item>
+
+            <div className="flex justify-end mt-10">
               <CustomButton
                 icon={<SendOutlined />}
-                className="absolute right-3 top-1/2 -translate-y-1/2 bg-gradient-to-r from-sky-400 to-blue-600 text-white p-2 rounded-full hover:scale-95 transition"
+                value="Send to AI"
+                className="bg-gradient-to-r from-sky-400 to-blue-600 text-white px-6 py-2 rounded-full hover:scale-95 transition"
                 onClick={handleSend}
               />
             </div>
