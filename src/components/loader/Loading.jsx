@@ -5,10 +5,10 @@ const indicator = (
   <LoadingOutlined style={{ fontSize: 14, color: "#fff" }} spin />
 );
 
-const Loading = () => {
+const Loading = ({ size = "small" }) => {
   return (
     <div className="flex justify-center items-center text-white">
-      <Spin indicator={indicator} size="small" />
+      <Spin indicator={indicator} size={size} />
     </div>
   );
 };

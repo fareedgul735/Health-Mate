@@ -11,3 +11,5 @@ export const otpVerify = `${BASE_URL}/security/verifyOtp`;
 export const sendOtpForgetPassword = `${BASE_URL}/auth/forgetPassword`;
 
 export const ResetPassword = `${BASE_URL}/auth/resetPassword`;
+
+export const GetUserName = `${BASE_URL}/data/userInfo`;

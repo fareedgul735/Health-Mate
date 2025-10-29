@@ -9,6 +9,7 @@ const baseButtonStyles = `
   hover:!opacity-90
   !transition-all !duration-200 !ease-in-out
   !shadow-md hover:!shadow-lg
+  hover:!scale-95 active:!scale-90
 `;
 
 export const CustomButton = ({
@@ -17,6 +18,8 @@ export const CustomButton = ({
   value,
   onClick,
   htmlType,
+  size,
+  style,
 }) => {
   return (
     <Button
@@ -24,6 +27,8 @@ export const CustomButton = ({
       htmlType={htmlType}
       onClick={onClick}
       className={`${baseButtonStyles} ${className}`}
+      size={size}
+      style={style}
     >
       {icon}
       {value}

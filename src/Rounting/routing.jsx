@@ -12,6 +12,7 @@ import Dashboard from "../pages/auth/dashboard/DashboardLayout.jsx";
 import UploadReport from "../pages/auth/uploadReport/UploadReports.jsx";
 import LandingPage from "../pages/nonAuth/landing/Landing.jsx";
 import NonAutherized from "../pages/nonAuth/nonAutherized/NonAutherized.jsx";
+import Family from "../pages/auth/family/Family.jsx";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,7 @@ const router = createBrowserRouter([
       { path: "viewReports", element: <ViewReport /> },
       { path: "addMinalVitals", element: <AddMinalVitals /> },
       { path: "timeLineView", element: <TimeLineView /> },
+      { path: "family", element: <Family /> },
     ],
   },
   { path: "*", element: <NotFound /> },

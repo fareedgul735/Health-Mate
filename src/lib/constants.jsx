@@ -102,7 +102,7 @@ export const Links = [
   },
   {
     path: "/addMinalVitals",
-    name: "Add Minal Vitals",
+    name: "Minal Vitals",
     // icon: <FaHeartbeat />,
   },
   {

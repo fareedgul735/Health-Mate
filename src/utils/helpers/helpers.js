@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+  GetUserName,
   otpVerify,
   ResetPassword,
   SendOtp,
@@ -100,17 +101,28 @@ export const sendForgetPasswordOtp = (email) => {
 
 export const resetPassword = (data) => {
   try {
-    const res = axios.post(
-      ResetPassword,
-      data,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const res = axios.post(ResetPassword, data, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     return res;
   } catch (err) {
     console.log(err);
+  }
+};
+
+export const getuserName = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const res = await axios.get(GetUserName, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res.data;
+  } catch (err) {
+    console.error("Error fetching username:", err);
+    throw err;
   }
 };
