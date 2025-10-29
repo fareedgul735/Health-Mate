@@ -71,17 +71,12 @@
 
 MongoDB NoSQL database use kiya gaya hai with `mongoose` models for structured data storage.
 
-**Example Structure:**
-
-```js
-User {
-  name: String,
-  email: String,
-  password: String (hashed),
-  otp: Number,
-  verified: Boolean,
-  createdAt: Date
-}
-```
-
-[Register](./public/health.png)
+[Landing](./public/screencapture-localhost-5173-health-mate-2025-10-29-11_32_31.png)
+[Register](./public/screencapture-localhost-5173-signup-2025-10-29-11_33_11.png)
+[Login](./public/screencapture-localhost-5173-login-2025-10-29-11_32_43.png)
+[ForgotPassword](./public/screencapture-localhost-5173-forgottenPassword-2025-10-29-11_33_00.png)
+[Dashboard](./public/screencapture-localhost-5173-dashboard-2025-10-29-11_22_29.png)
+[UploadReports](./public/public/screencapture-localhost-5173-uploadReports-2025-10-29-11_30_55.png.png)
+[ViewReports](./public/screencapture-localhost-5173-viewReports-2025-10-29-11_31_10.png)
+[Vitals Review](./public/screencapture-localhost-5173-addMinalVitals-2025-10-29-11_31_52.png)
+[Health Time Line View](./public/screencapture-localhost-5173-timeLineView-2025-10-29-11_32_02.png)
