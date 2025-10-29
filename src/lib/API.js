@@ -1,4 +1,4 @@
-export const BASE_URL = "http://localhost:5000/api";
+export const BASE_URL = "https://heatlh-mate-bk-production.up.railway.app/api";
 
 export const SignupUser = `${BASE_URL}/auth/signup`;
 

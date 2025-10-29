@@ -74,9 +74,10 @@ Built with React.js, Express.js, MongoDB, and Node.js, HealthMate combines smart
 👉 https://github.com/fareedgul735/Health-Mate.git
 
 🔹 Frontend (Vercel)
-👉 
+👉 https://health-mate-two-sandy.vercel.app
+
 🔹 Backend (Railway)
-👉 
+👉https://heatlh-mate-bk-production.up.railway.app
 
 🔹 Backend GitHub Repository
 👉 https://github.com/fareedgul735/Heatlh-Mate-BK.git
