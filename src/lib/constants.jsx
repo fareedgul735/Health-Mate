@@ -5,7 +5,17 @@ import { OTPPattern, PasswordPattern, UserName } from "./pattern.js";
 import { MdEmail, MdPersonOutline, MdSecurity } from "react-icons/md";
 
 import { GiArtificialIntelligence } from "react-icons/gi";
-import { FaFileMedical, FaChartLine, FaLock } from "react-icons/fa";
+import {
+  FaFileMedical,
+  FaChartLine,
+  FaLock,
+  FaClock,
+  FaHeartbeat,
+  FaFileAlt,
+  FaUpload,
+  FaTachometerAlt,
+  FaPlus,
+} from "react-icons/fa";
 // import {
 //   FaTachometerAlt,
 //   FaUpload,
@@ -88,27 +98,55 @@ export const Links = [
   {
     path: "/dashboard",
     name: "Dashboard",
-    // icon: <FaTachometerAlt />,
+    icon: <FaTachometerAlt />,
   },
   {
     path: "/uploadReports",
     name: "Upload Reports",
-    // icon: <FaUpload />,
+    icon: <FaUpload />,
   },
   {
     path: "/viewReports",
     name: "View Reports",
-    // icon: <FaFileAlt />,
+    icon: <FaFileAlt />,
   },
   {
     path: "/addMinalVitals",
     name: "Minal Vitals",
-    // icon: <FaHeartbeat />,
+    icon: <FaHeartbeat />,
   },
   {
     path: "/timeLineView",
     name: "Time Line View",
-    // icon: <FaClock />,
+    icon: <FaClock />,
+  },
+  {
+    path: "/family",
+    name: "Add Family",
+    icon: <FaPlus />,
+  },
+];
+
+export const NavLinks = [
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+  },
+  {
+    path: "/uploadReports",
+    name: "Upload Reports",
+  },
+  {
+    path: "/viewReports",
+    name: "View Reports",
+  },
+  {
+    path: "/addMinalVitals",
+    name: "Minal Vitals",
+  },
+  {
+    path: "/timeLineView",
+    name: "Time Line View",
   },
 ];
 

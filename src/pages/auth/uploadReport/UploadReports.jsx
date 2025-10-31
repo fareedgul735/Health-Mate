@@ -43,7 +43,6 @@ const UploadReports = () => {
       if (res?.data?.aiResponse) {
         setAiResponse(res.data.aiResponse);
         messageApi.success("AI analyzed your report successfully!");
-        form.resetFields();
       } else {
         messageApi.error("AI could not analyze your data. Try again.");
       }
@@ -75,9 +74,7 @@ const UploadReports = () => {
 
         <Card className="rounded-2xl shadow-lg border-none bg-white/80 backdrop-blur-sm">
           <Form form={form} layout="vertical" validateTrigger="onChange">
-            {" "}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {" "}
               <Form.Item
                 name="title"
                 label="Title"
@@ -85,9 +82,8 @@ const UploadReports = () => {
                 validateFirst
                 validateTrigger="onChange"
               >
-                {" "}
-                <CustomInput placeholder="e.g., Ultrasound Abdomen" />{" "}
-              </Form.Item>{" "}
+                <CustomInput placeholder="e.g., Ultrasound Abdomen" />
+              </Form.Item>
               <Form.Item
                 name="testName"
                 label="Test name"
@@ -95,9 +91,8 @@ const UploadReports = () => {
                 validateFirst
                 validateTrigger="onChange"
               >
-                {" "}
-                <CustomInput placeholder="Ultrasound / X-ray / CBC / ABG" />{" "}
-              </Form.Item>{" "}
+                <CustomInput placeholder="Ultrasound / X-ray / CBC / ABG" />
+              </Form.Item>
               <Form.Item
                 name="files"
                 label="Files (optional, multiple)"
@@ -119,9 +114,8 @@ const UploadReports = () => {
                 validateFirst
                 validateTrigger="onChange"
               >
-                {" "}
-                <CustomInput placeholder="e.g., Aga Khan" />{" "}
-              </Form.Item>{" "}
+                <CustomInput placeholder="e.g., Aga Khan" />
+              </Form.Item>
               <Form.Item
                 name="doctor"
                 label="Doctor"
@@ -129,9 +123,8 @@ const UploadReports = () => {
                 validateFirst
                 validateTrigger="onChange"
               >
-                {" "}
-                <CustomInput placeholder="e.g., Dr. Ahmed" />{" "}
-              </Form.Item>{" "}
+                <CustomInput placeholder="e.g., Dr. Ahmed" />
+              </Form.Item>
               <Form.Item
                 name="date"
                 label="Date"
@@ -139,48 +132,39 @@ const UploadReports = () => {
                 validateFirst
                 validateTrigger="onChange"
               >
-                {" "}
-                <DatePicker className="w-full" />{" "}
-              </Form.Item>{" "}
+                <DatePicker className="w-full" />
+              </Form.Item>
               <Form.Item
                 name="price"
                 label="Price (Rs)"
                 rules={[
                   { required: true, message: "Price is required" },
                   {
-                    validator: (_, value) => {
-                      if (!value) return Promise.resolve();
-                      if (isNaN(value)) {
-                        return Promise.reject(new Error("Must be a number"));
-                      }
-                      return Promise.resolve();
-                    },
+                    validator: (_, value) =>
+                      value && isNaN(value)
+                        ? Promise.reject(new Error("Must be a number"))
+                        : Promise.resolve(),
                   },
                 ]}
                 validateFirst
                 validateTrigger="onChange"
               >
-                {" "}
-                <CustomInput placeholder="e.g., 3500" type="number" />{" "}
-              </Form.Item>{" "}
+                <CustomInput placeholder="e.g., 3500" type="number" />
+              </Form.Item>
               <Form.Item
                 name="notes"
                 label="Additional notes (optional)"
                 className="md:col-span-2"
               >
-                {" "}
-                <TextArea
-                  rows={3}
-                  placeholder="Symptoms, instructions, etc."
-                />{" "}
-              </Form.Item>{" "}
-            </div>{" "}
+                <TextArea rows={3} placeholder="Symptoms, instructions, etc." />
+              </Form.Item>
+            </div>
+
             <Divider className="!my-8 text-pink-500">
-              {" "}
-              Add Manual Vitals (Optional){" "}
-            </Divider>{" "}
+              Add Manual Vitals (Optional)
+            </Divider>
+
             <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-              {" "}
               {[
                 { name: "systolic", label: "BP Systolic (mmHg)" },
                 { name: "diastolic", label: "BP Diastolic (mmHg)" },
@@ -199,22 +183,23 @@ const UploadReports = () => {
                     {
                       validator: (_, value) => {
                         if (!value) return Promise.resolve();
-                        if (value.length < 3 && isNaN(value)) {
+                        if (!isNaN(value)) return Promise.resolve();
+                        if (value.length < 3)
                           return Promise.reject(
                             new Error("At least 3 characters or a valid number")
                           );
-                        }
                         return Promise.resolve();
                       },
                     },
                   ]}
                 >
-                  {" "}
-                  <CustomInput type="number" placeholder={v.label} />{" "}
+                  <CustomInput type="number" placeholder={v.label} />
                 </Form.Item>
-              ))}{" "}
-            </div>{" "}
-            <Divider className="!my-8 text-pink-500">Ask HealthMate AI</Divider>{" "}
+              ))}
+            </div>
+
+            <Divider className="!my-8 text-pink-500">Ask HealthMate AI</Divider>
+
             <Form.Item
               name="aiPrompt"
               label="Describe your issue"
@@ -222,21 +207,20 @@ const UploadReports = () => {
               validateFirst
               validateTrigger="onChange"
             >
-              {" "}
               <CustomInput
                 placeholder="e.g., I have dizziness and high BP readings"
                 className="py-3 rounded-full"
-              />{" "}
-            </Form.Item>{" "}
+              />
+            </Form.Item>
+
             <div className="flex justify-end mt-10">
-              {" "}
               <CustomButton
                 icon={<SendOutlined />}
                 value="Send to AI"
                 className="bg-gradient-to-r from-sky-400 to-blue-600 text-white px-6 py-2 rounded-full hover:scale-95 transition"
                 onClick={handleSend}
-              />{" "}
-            </div>{" "}
+              />
+            </div>
           </Form>
         </Card>
 

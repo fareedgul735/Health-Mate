@@ -134,7 +134,7 @@ const Dashboard = () => {
         </div>
         <Link to={"/family"}>
           <CustomButton
-            className="hover:!scale-95 active:!scale-90 slide-down"
+            className="hover:!scale-95 active:!scale-90 slide-down !hidden lg:!flex"
             icon={<Plus className="w-4 h-4" />}
             value={"Add Family Member"}
           />
@@ -191,7 +191,7 @@ const Dashboard = () => {
             <div>
               <Link to={"/uploadReports"}>
                 <CustomButton
-                  className="hover:!scale-95 active:!scale-90 slide-down"
+                  className="hover:!scale-95 active:!scale-90 slide-down !hidden lg:!flex"
                   value={"Add New Report"}
                   icon={<Plus className="w-4 h-4" />}
                 />

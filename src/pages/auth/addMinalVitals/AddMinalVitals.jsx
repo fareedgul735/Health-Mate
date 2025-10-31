@@ -67,16 +67,16 @@ const AddVitals = () => {
     <div className="min-h-screen bg-gradient-to-br from-sky-50 to-blue-100 p-8">
       <div className="max-w-5xl mx-auto space-y-8">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-800">
+          <h1 className="text-2xl font-bold text-gray-800">
             🩺 Health Vitals Overview
           </h1>
-          <div className="flex items-center gap-2 text-blue-600">
+          <div className="flex items-center gap-2 text-blue-600 lg:!flex !hidden">
             <BarChart3 className="w-6 h-6" />
             <span className="font-semibold">Synced from Reports</span>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid  lg:grid-cols-4 gap-4">
           <Card className="rounded-2xl shadow-md border-none bg-white/80 backdrop-blur-sm">
             <div className="flex flex-col items-center">
               <HeartPulse className="w-6 h-6 text-red-500 mb-2" />

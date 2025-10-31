@@ -118,6 +118,7 @@ const ViewReport = () => {
           </h1>
           <Link to={"/uploadReports"}>
             <CustomButton
+              className="lg!flex !hidden"
               value="Upload New Report"
               icon={<FileText className="w-4 h-4" />}
             />

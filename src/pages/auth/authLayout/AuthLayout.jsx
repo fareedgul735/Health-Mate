@@ -16,7 +16,7 @@ const AuthLayout = () => {
       </div>
       <div className="outlet ">
         <Outlet />
-        <Tooltip color="blue" title={"Logout"} open>
+        <Tooltip className="!hidden lg!flex" color="blue" title={"Logout"} open>
           <div
             onClick={() => logoutHandler(navigate)}
             className="w-12 h-12 cursor-pointer shadow-md fixed bottom-[48px] right-[48px] !flex !items-center !justify-center !gap-2
@@ -26,7 +26,7 @@ const AuthLayout = () => {
   !bg-gradient-to-r !from-sky-400 !to-blue-600
   hover:!opacity-90
   !transition-all !duration-200 !ease-in-out
-  !shadow-md hover:!shadow-lg hover:!scale-95 active:!scale-90 slide-down"
+  !shadow-md hover:!shadow-lg hover:!scale-95 active:!scale-90 slide-down "
           >
             <LoginIcon />
           </div>
