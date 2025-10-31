@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+  getReprtsWithAi,
   GetUserName,
   otpVerify,
   ResetPassword,
@@ -130,14 +131,30 @@ export const getuserName = async () => {
 
 export const uploadReportAiInfo = async (data) => {
   try {
+    const token = localStorage.getItem("token");
     const res = await axios.post(UploadReportAi, data, {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     });
     console.log(res);
     return res;
   } catch (err) {
     console.log(err);
+  }
+};
+
+export const getReportsWithAiSummary = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const res = await axios.get(getReprtsWithAi, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res.data;
+  } catch (err) {
+    console.log("Error fetching reports:", err);
   }
 };

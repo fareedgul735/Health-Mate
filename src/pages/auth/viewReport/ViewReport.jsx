@@ -1,44 +1,64 @@
-import { Card, Table, Tag, Dropdown, Menu } from "antd";
+import { useEffect, useState } from "react";
+import { Card, Table, Tag, Dropdown, Menu, Tooltip } from "antd";
 import { Eye, Download, FileText, MoreVertical } from "lucide-react";
 import { CustomButton } from "../../../components/button/Button.jsx";
 import { Link } from "react-router-dom";
+import { getReportsWithAiSummary } from "../../../utils/helpers/helpers.js";
 
 const ViewReport = () => {
-  const reports = [
-    {
-      key: 1,
-      reportName: "Blood Test Report",
-      date: "2025-10-25",
-      doctor: "Dr. Sarah Khan",
-      type: "Pathology",
-      status: "Reviewed",
-    },
-    {
-      key: 2,
-      reportName: "X-Ray Chest",
-      date: "2025-10-26",
-      doctor: "Dr. Ahmed Ali",
-      type: "Radiology",
-      status: "Pending Review",
-    },
-    {
-      key: 3,
-      reportName: "ECG Report",
-      date: "2025-10-27",
-      doctor: "Dr. Fatima Noor",
-      type: "Cardiology",
-      status: "Reviewed",
-    },
-  ];
+  const [reports, setReports] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const menu = (
+  useEffect(() => {
+    const fetchReports = async () => {
+      try {
+        setLoading(true);
+        const response = await getReportsWithAiSummary();
+        if (response?.success) {
+          setReports(response?.tableData || []);
+        }
+      } catch (err) {
+        console.error("Error fetching reports:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReports();
+  }, []);
+
+  const menu = (record) => (
     <Menu
       items={[
-        { key: "1", label: "View Details", icon: <Eye className="w-4 h-4" /> },
+        {
+          key: "1",
+          label: (
+            <Tooltip title="View report details">
+              <span className="flex items-center gap-2">
+                <Eye className="w-4 h-4" /> View Details
+              </span>
+            </Tooltip>
+          ),
+          onClick: () => {
+            console.log("View report:", record);
+          },
+        },
         {
           key: "2",
-          label: "Download Report",
-          icon: <Download className="w-4 h-4" />,
+          label: (
+            <Tooltip title="Download the report file">
+              <span className="flex items-center gap-2">
+                <Download className="w-4 h-4" /> Download Report
+              </span>
+            </Tooltip>
+          ),
+          onClick: () => {
+            if (record?.fileUrl) {
+              window.open(record.fileUrl, "_blank");
+            } else {
+              console.warn("No file URL found for report:", record);
+            }
+          },
         },
       ]}
     />
@@ -47,8 +67,8 @@ const ViewReport = () => {
   const columns = [
     {
       title: "Report Name",
-      dataIndex: "reportName",
-      key: "reportName",
+      dataIndex: "title",
+      key: "title",
       render: (text) => (
         <span className="font-medium text-gray-800 flex items-center gap-2">
           <FileText className="w-5 h-5 text-blue-500" /> {text}
@@ -58,24 +78,31 @@ const ViewReport = () => {
     { title: "Date", dataIndex: "date", key: "date" },
     { title: "Doctor", dataIndex: "doctor", key: "doctor" },
     {
+      title: "Lab/Hospital",
+      dataIndex: "lab",
+      key: "lab",
+    },
+    {
       title: "Type",
       dataIndex: "type",
       key: "type",
-      render: (type) => <Tag color="blue">{type}</Tag>,
+      render: (type) => <Tag color="blue">{type || "Unknown"}</Tag>,
     },
     {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (status) => (
-        <Tag color={status === "Reviewed" ? "green" : "orange"}>{status}</Tag>
+      title: "Flag",
+      dataIndex: "flag",
+      key: "flag",
+      render: (flag) => (
+        <Tag color={flag === "Normal" ? "green" : "orange"}>
+          {flag || "N/A"}
+        </Tag>
       ),
     },
     {
       title: "Actions",
       key: "actions",
-      render: () => (
-        <Dropdown overlay={menu} trigger={["click"]}>
+      render: (_, record) => (
+        <Dropdown overlay={menu(record)} trigger={["click"]}>
           <MoreVertical className="w-5 h-5 text-gray-500 cursor-pointer hover:text-gray-800 transition" />
         </Dropdown>
       ),
@@ -102,6 +129,7 @@ const ViewReport = () => {
           className="rounded-2xl shadow-lg border-none bg-white/80 backdrop-blur-sm"
         >
           <Table
+            loading={loading}
             dataSource={reports}
             columns={columns}
             bordered={true}

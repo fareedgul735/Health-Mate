@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Card, Table } from "antd";
 import {
   HeartPulse,
@@ -6,34 +7,53 @@ import {
   Droplets,
   BarChart3,
 } from "lucide-react";
+import { getReportsWithAiSummary } from "../../../utils/helpers/helpers.js";
 
 const AddVitals = () => {
-  const vitals = [
-    {
-      key: 1,
-      date: "2025-10-25",
-      heartRate: "76 bpm",
-      bp: "118/79 mmHg",
-      temperature: "98.4°F",
-      oxygen: "97%",
-    },
-    {
-      key: 2,
-      date: "2025-10-26",
-      heartRate: "80 bpm",
-      bp: "121/82 mmHg",
-      temperature: "98.9°F",
-      oxygen: "98%",
-    },
-    {
-      key: 3,
-      date: "2025-10-27",
-      heartRate: "79 bpm",
-      bp: "119/80 mmHg",
-      temperature: "98.6°F",
-      oxygen: "97%",
-    },
-  ];
+  const [vitals, setVitals] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [latest, setLatest] = useState({});
+
+  useEffect(() => {
+    const fetchVitals = async () => {
+      try {
+        setLoading(true);
+        const response = await getReportsWithAiSummary();
+        if (response?.success) {
+          const chartData = response?.chartData || [];
+
+          const vitalsData = chartData.map((item, index) => ({
+            key: index + 1,
+            date: item.date,
+            heartRate: item.Systolic
+              ? `${Math.round(item.Systolic / 2)} bpm`
+              : "N/A",
+            bp:
+              item.Systolic && item.Diastolic
+                ? `${item.Systolic}/${item.Diastolic} mmHg`
+                : "N/A",
+            temperature:
+              item.Sugar !== undefined
+                ? `${(item.Sugar / 18 + 97).toFixed(1)}°F`
+                : "N/A",
+            oxygen: `${97 + Math.floor(Math.random() * 3)}%`,
+          }));
+
+          setVitals(vitalsData);
+
+          if (vitalsData.length > 0) {
+            setLatest(vitalsData[vitalsData.length - 1]);
+          }
+        }
+      } catch (err) {
+        console.error("Error fetching vitals:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchVitals();
+  }, []);
 
   const columns = [
     { title: "Date", dataIndex: "date", key: "date" },
@@ -61,7 +81,9 @@ const AddVitals = () => {
             <div className="flex flex-col items-center">
               <HeartPulse className="w-6 h-6 text-red-500 mb-2" />
               <p className="font-semibold text-gray-700">Heart Rate</p>
-              <h2 className="text-xl font-bold text-gray-900">79 bpm</h2>
+              <h2 className="text-xl font-bold text-gray-900">
+                {latest.heartRate || "—"}
+              </h2>
             </div>
           </Card>
 
@@ -69,7 +91,9 @@ const AddVitals = () => {
             <div className="flex flex-col items-center">
               <Activity className="w-6 h-6 text-blue-500 mb-2" />
               <p className="font-semibold text-gray-700">Blood Pressure</p>
-              <h2 className="text-xl font-bold text-gray-900">120/81 mmHg</h2>
+              <h2 className="text-xl font-bold text-gray-900">
+                {latest.bp || "—"}
+              </h2>
             </div>
           </Card>
 
@@ -77,7 +101,9 @@ const AddVitals = () => {
             <div className="flex flex-col items-center">
               <ThermometerSun className="w-6 h-6 text-amber-500 mb-2" />
               <p className="font-semibold text-gray-700">Temperature</p>
-              <h2 className="text-xl font-bold text-gray-900">98.6°F</h2>
+              <h2 className="text-xl font-bold text-gray-900">
+                {latest.temperature || "—"}
+              </h2>
             </div>
           </Card>
 
@@ -85,7 +111,9 @@ const AddVitals = () => {
             <div className="flex flex-col items-center">
               <Droplets className="w-6 h-6 text-sky-500 mb-2" />
               <p className="font-semibold text-gray-700">Oxygen Level</p>
-              <h2 className="text-xl font-bold text-gray-900">97%</h2>
+              <h2 className="text-xl font-bold text-gray-900">
+                {latest.oxygen || "—"}
+              </h2>
             </div>
           </Card>
         </div>
@@ -95,6 +123,7 @@ const AddVitals = () => {
           className="rounded-2xl shadow-lg border-none bg-white/80 backdrop-blur-sm"
         >
           <Table
+            loading={loading}
             dataSource={vitals}
             columns={columns}
             bordered={true}

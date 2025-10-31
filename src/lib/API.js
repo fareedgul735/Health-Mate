@@ -1,4 +1,7 @@
-export const BASE_URL = "https://heatlh-mate-bk-production.up.railway.app/api";
+export const BASE_URL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:5000/api"
+    : "https://health-mate-bk-production.up.railway.app/api";
 
 export const SignupUser = `${BASE_URL}/auth/signup`;
 
@@ -15,3 +18,5 @@ export const ResetPassword = `${BASE_URL}/auth/resetPassword`;
 export const GetUserName = `${BASE_URL}/data/userInfo`;
 
 export const UploadReportAi = `${BASE_URL}/upload/analyzeReport`;
+
+export const getReprtsWithAi = `${BASE_URL}/get/reports`

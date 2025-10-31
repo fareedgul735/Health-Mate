@@ -5,24 +5,26 @@ import {
   Line,
   XAxis,
   YAxis,
-  Tooltip,
   ResponsiveContainer,
   Legend,
 } from "recharts";
-import { Card, Table, Tag } from "antd";
+import { Button, Card, Table, Tag, Tooltip } from "antd";
 
 import { CustomButton } from "../../../components/button/Button.jsx";
 import CustomInput from "../../../components/input/Input.jsx";
 import { Link } from "react-router-dom";
 import Loading from "../../../components/loader/Loading.jsx";
 import { EyeOutlined } from "@ant-design/icons";
-import { getuserName } from "../../../utils/helpers/helpers.js";
+import {
+  getReportsWithAiSummary,
+  getuserName,
+} from "../../../utils/helpers/helpers.js";
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState({});
 
-  const [data, setData] = useState([]);
+  const [reportsData, setReportsData] = useState([]);
   const [reports, setReports] = useState([]);
 
   const loadUser = async () => {
@@ -32,21 +34,32 @@ const Dashboard = () => {
       setUserData(data);
     } catch (err) {
       console.log(err);
-    } finally {
-      setLoading(false);
     }
   };
 
   useEffect(() => {
     loadUser();
-    setData([
-      { date: "Oct 01", Diastolic: 85, Systolic: 120, Sugar: 98 },
-      { date: "Oct 05", Diastolic: 82, Systolic: 118, Sugar: 96 },
-      { date: "Oct 09", Diastolic: 84, Systolic: 122, Sugar: 100 },
-      { date: "Oct 12", Diastolic: 80, Systolic: 117, Sugar: 95 },
-    ]);
+    const fetchReports = async () => {
+      try {
+        const response = await getReportsWithAiSummary();
+        if (response?.success) {
+          const formattedData = response?.chartData?.map((item) => ({
+            date: item.date,
+            systolic: item.Systolic,
+            diastolic: item.Diastolic,
+            sugar: item.Sugar,
+          }));
+          setReportsData(formattedData);
+          setReports(response?.tableData);
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    setReports("");
+    fetchReports();
   }, []);
 
   const columns = [
@@ -114,7 +127,7 @@ const Dashboard = () => {
         <div className="flex items-center gap-3">
           <UserCircle className="w-10 h-10 text-blue-600" />
           <div>
-            <h2 className="text-xl font-semibold text-gray-800">
+            <h2 className="text-xl flex gap-[6px] font-semibold text-gray-800">
               Hi,{loading ? <Loading /> : userData?.userName}
             </h2>
           </div>
@@ -137,26 +150,29 @@ const Dashboard = () => {
 
           <div className="h-[250px]">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={data}>
+              <LineChart data={reportsData}>
                 <XAxis dataKey="date" stroke="#9ca3af" />
                 <YAxis stroke="#9ca3af" />
                 <Tooltip />
                 <Legend />
                 <Line
                   type="monotone"
-                  dataKey="Diastolic"
-                  stroke="#f59e0b"
-                  strokeWidth={2}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="Systolic"
+                  dataKey="systolic"
+                  name="Systolic BP"
                   stroke="#22c55e"
                   strokeWidth={2}
                 />
                 <Line
                   type="monotone"
-                  dataKey="Sugar"
+                  dataKey="diastolic"
+                  name="Diastolic BP"
+                  stroke="#f59e0b"
+                  strokeWidth={2}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="sugar"
+                  name="Sugar Level"
                   stroke="#ef4444"
                   strokeWidth={2}
                 />
@@ -184,21 +200,13 @@ const Dashboard = () => {
           </div>
           <div className="table-wrapper">
             <Table
+              loading={loading}
               columns={columns}
               dataSource={reports}
               bordered={true}
               pagination={{ position: ["bottomCenter"], pageSize: 8 }}
               size="middle"
               scroll={{ x: "max-content" }}
-              locale={{
-                emptyText: loading ? (
-                  <div className="">
-                    <Loading className="!text-gray-900" />
-                  </div>
-                ) : (
-                  "data not found."
-                ),
-              }}
             />
           </div>
         </div>

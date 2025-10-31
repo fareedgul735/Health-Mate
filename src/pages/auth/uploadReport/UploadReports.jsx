@@ -13,6 +13,7 @@ const UploadReports = () => {
   const handleSend = async () => {
     try {
       const values = await form.validateFields();
+      console.log(values);
       const res = await uploadReportAiInfo(values);
       console.log(res);
       messageApi.success("Report validated successfully! Sending to AI...");
