@@ -18,13 +18,13 @@ const Navbar = () => {
         <Link to={"login"}>
           <CustomButton
             value={"Signin"}
-            className="hover:!scale-95 active:!scale-90 slide-up"
+            className="hover:!scale-95 active:!scale-90 slide-up !hidden lg:!flex"
           />
         </Link>
         <Link to={"signup"}>
           <CustomButton
             value={" Create account"}
-            className="hover:!scale-95 active:!scale-90 slide-down"
+            className="hover:!scale-95 active:!scale-90 slide-down !hidden lg:!flex"
           />
         </Link>
       </div>

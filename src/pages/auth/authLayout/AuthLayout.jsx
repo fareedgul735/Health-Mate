@@ -10,13 +10,18 @@ const AuthLayout = () => {
   const navigate = useNavigate();
   useAuthRedirection();
   return (
-    <div className="w-screen bg-gradient-to-b from-sky-50 via-blue-50 to-white">
+    <div className="w-full bg-gradient-to-b from-sky-50 via-blue-50 to-white">
       <div className="navbar">
         <Navbar />
       </div>
       <div className="outlet ">
         <Outlet />
-        <Tooltip className="!hidden lg!flex" color="blue" title={"Logout"} open>
+        <Tooltip
+          className="!hidden lg:!block"
+          color="blue"
+          title={"Logout"}
+          open
+        >
           <div
             onClick={() => logoutHandler(navigate)}
             className="w-12 h-12 cursor-pointer shadow-md fixed bottom-[48px] right-[48px] !flex !items-center !justify-center !gap-2

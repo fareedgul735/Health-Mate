@@ -1,3 +1,7 @@
+import { Link } from "react-router-dom";
+import { CustomButton } from "../../../components/button/Button";
+import { BiArrowFromLeft } from "react-icons/bi";
+
 const HeroSection = () => {
   return (
     <section className="flex flex-col items-center mt-10 md:mt-20 max-w-3xl">
@@ -17,6 +21,14 @@ const HeroSection = () => {
       <p className="mt-2 text-sky-600 italic">
         “HealthMate — Sehat ka smart dost.”
       </p>
+      <div className="p-[12px]">
+        <Link to={"/login"}>
+          <CustomButton
+            value={"Signin"}
+            className="hover:!scale-95 active:!scale-90 slide-up !flex lg:!hidden"
+          />
+        </Link>
+      </div>
     </section>
   );
 };

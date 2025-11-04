@@ -116,9 +116,9 @@ const ForgetPassword = () => {
   };
 
   return (
-    <div className="min-w-screen p-[12px] gap-[122px] flex  justify-center items-center">
+    <div className="min-w-screen p-[12px] gap-[122px] flex justify-center items-center flex-col lg:flex-row">
       {contextHolder}
-      <div className="information-forgot w-[50%] slide-right">
+      <div className="information-forgot lg:w-[50%] w-[100%]  slide-right">
         <div className="mb-6">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
             Forgot your password?
@@ -128,7 +128,6 @@ const ForgetPassword = () => {
             steps.
           </p>
         </div>
-
         <ul className="space-y-4 mb-8">
           <li className="flex items-start gap-3">
             <FaCheckCircle className="w-5 h-5 text-sky-500 mt-[2px]" />
@@ -160,7 +159,7 @@ const ForgetPassword = () => {
           </p>
         </div>
       </div>
-      <div className="form w-[30%] slide-left">
+      <div className="form lg:w-[30%] w-[100%] slide-left">
         <Form form={form} onFinish={handleNext} layout="vertical">
           <div className="space-y-10">
             <Form.Item

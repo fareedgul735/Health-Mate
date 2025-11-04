@@ -98,10 +98,10 @@ const Signup = () => {
     if (step > 0) setStep(step - 1);
   };
   return (
-    <div className="min-w-screen gap-[122px] flex justify-center items-center">
+    <div className="min-w-screen p-[12px] gap-[122px] flex-col lg:flex-row flex justify-center items-center">
       {contextHolder}
 
-      <div className="information-signup w-[50%] slide-right">
+      <div className="information-signup lg:w-[50%] w-[100%] slide-right">
         <div className="mb-6">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
             Create your account
@@ -145,7 +145,7 @@ const Signup = () => {
           </p>
         </div>
       </div>
-      <div className="form w-[30%] slide-left">
+      <div className="form lg:w-[30%] w-[100%] slide-left">
         <Form form={form} onFinish={handleNext} layout="vertical">
           <div className="space-y-10">
             <Form.Item

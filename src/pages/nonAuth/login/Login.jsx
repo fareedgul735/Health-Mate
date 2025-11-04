@@ -33,8 +33,8 @@ const Login = () => {
   return (
     <div className="w-screen flex flex-col">
       {contextHolder}
-      <div className="form w-screen flex gap-[122px] justify-center items-center">
-        <div className="information-login w-full md:w-[40%] space-y-6 slide-right">
+      <div className="form w-screen flex-col lg:flex-row flex gap-[122px] justify-center items-center">
+        <div className="information-login w-full md:w-[40%] p-[12px] slide-right">
           <div className="text">
             <h1 className="text-[24px] md:text-[28px] font-bold text-gray-800">
               Welcome Back
@@ -55,7 +55,7 @@ const Login = () => {
             </p>
           </div>
         </div>
-        <div className="w-[40%] slide-left">
+        <div className="lg:w-[40%] w-[100%] p-[12px] slide-left">
           <Form form={form} onFinish={onLoginSuccessFully} layout="vertical">
             <Form.Item
               className={"slide-left"}
