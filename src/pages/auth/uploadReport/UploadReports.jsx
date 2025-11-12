@@ -62,7 +62,7 @@ const UploadReports = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-sky-50 to-blue-100 p-8">
+    <div className="slide-left relative min-h-screen bg-gradient-to-br from-sky-50 to-blue-100 p-8">
       {contextHolder}
 
       {loadingAi && (

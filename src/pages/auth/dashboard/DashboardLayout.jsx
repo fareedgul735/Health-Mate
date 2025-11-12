@@ -171,7 +171,7 @@ const Dashboard = () => {
         </Link>
       </div>
 
-      <Card className="rounded-2xl shadow-md bg-white mb-6">
+      <Card className="slide-up rounded-2xl shadow-md bg-white mb-6">
         <div className="p-4">
           <h3 className="font-semibold text-gray-700 mb-2">Vitals Trend</h3>
           <p className="text-sm text-gray-500 mb-4">
@@ -215,7 +215,7 @@ const Dashboard = () => {
         </div>
       </Card>
 
-      <Card className="rounded-2xl shadow-md bg-white">
+      <Card className="slide-down rounded-2xl shadow-md bg-white">
         <div className="p-4">
           <div className="flex pt-4 pb-4 justify-between items-start gap-3">
             <div className="input w-full max-w-sm">

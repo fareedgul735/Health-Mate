@@ -78,7 +78,7 @@ const ViewReport = () => {
           label: (
             <Tooltip title="View report details + AI response">
               <span className="flex items-center gap-2">
-                <FileText className="w-4 h-4" /> View Details + Download 
+                <FileText className="w-4 h-4" /> View Details + Download
               </span>
             </Tooltip>
           ),
@@ -138,7 +138,7 @@ const ViewReport = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-50 to-blue-100 p-8">
+    <div className="slide-right min-h-screen bg-gradient-to-br from-sky-50 to-blue-100 p-8">
       <div className="max-w-6xl mx-auto space-y-8">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl flex items-center gap-[8px] font-bold text-gray-800">

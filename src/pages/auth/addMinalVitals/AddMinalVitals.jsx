@@ -76,7 +76,7 @@ const AddVitals = () => {
           </div>
         </div>
 
-        <div className="grid  lg:grid-cols-4 gap-4">
+        <div className="slide-right grid  lg:grid-cols-4 gap-4">
           <Card className="rounded-2xl shadow-md border-none bg-white/80 backdrop-blur-sm">
             <div className="flex flex-col items-center">
               <HeartPulse className="w-6 h-6 text-red-500 mb-2" />
@@ -120,7 +120,7 @@ const AddVitals = () => {
 
         <Card
           title="Recent Synced Vitals"
-          className="rounded-2xl shadow-lg border-none bg-white/80 backdrop-blur-sm"
+          className="slide-up rounded-2xl shadow-lg border-none bg-white/80 backdrop-blur-sm"
         >
           <Table
             loading={loading}

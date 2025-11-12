@@ -75,7 +75,7 @@ const TimeLineView = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-50 to-blue-100 p-8">
+    <div className="slide-down min-h-screen bg-gradient-to-br from-sky-50 to-blue-100 p-8">
       <div className="max-w-3xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-800 text-center mb-10">
           🩺 Health Activity Timeline
