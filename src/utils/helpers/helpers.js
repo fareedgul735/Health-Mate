@@ -132,12 +132,28 @@ export const getuserName = async () => {
 export const uploadReportAiInfo = async (data) => {
   try {
     const token = localStorage.getItem("token");
-    const res = await axios.post(UploadReportAi, data, {
+
+    const formData = new FormData();
+
+    Object.keys(data).forEach((key) => {
+      if (key !== "files") {
+        formData.append(key, data[key]);
+      }
+    });
+
+    if (data.files && data.files.length > 0) {
+      data.files.forEach((fileObj) => {
+        formData.append("files", fileObj.originFileObj || fileObj);
+      });
+    }
+
+    const res = await axios.post(UploadReportAi, formData, {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       },
     });
+
     console.log(res);
     return res;
   } catch (err) {

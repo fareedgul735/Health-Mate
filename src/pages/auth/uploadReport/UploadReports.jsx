@@ -30,10 +30,14 @@ const UploadReports = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [loadingAi, setLoadingAi] = useState(false);
   const [aiResponse, setAiResponse] = useState(null);
+  const [selectedFiles, setSelectedFiles] = useState([]);
 
   const handleSend = async () => {
     try {
       const values = await form.validateFields();
+
+      values.files = selectedFiles;
+
       setLoadingAi(true);
       setAiResponse(null);
 
@@ -42,12 +46,16 @@ const UploadReports = () => {
 
       if (res?.data?.aiResponse) {
         setAiResponse(res.data.aiResponse);
+        form.resetFields();
+        setSelectedFiles([]);
+        form.resetFields();
         messageApi.success("AI analyzed your report successfully!");
       } else {
         messageApi.error("AI could not analyze your data. Try again.");
       }
-    } catch (errorInfo) {
-      messageApi.error("Please fill all required fields before sending!");
+    } catch (error) {
+      console.error(error);
+      messageApi.error("Please fill all required fields!");
     } finally {
       setLoadingAi(false);
     }
@@ -93,20 +101,6 @@ const UploadReports = () => {
               >
                 <CustomInput placeholder="Ultrasound / X-ray / CBC / ABG" />
               </Form.Item>
-              <Form.Item
-                name="files"
-                label="Files (optional, multiple)"
-                className="md:col-span-2"
-              >
-                {" "}
-                <Upload multiple beforeUpload={() => false}>
-                  {" "}
-                  <CustomButton
-                    value={"Choose Files"}
-                    icon={<UploadOutlined />}
-                  />{" "}
-                </Upload>{" "}
-              </Form.Item>{" "}
               <Form.Item
                 name="hospital"
                 label="Hospital / Lab"
@@ -213,7 +207,21 @@ const UploadReports = () => {
               />
             </Form.Item>
 
-            <div className="flex justify-end mt-10">
+            <div className="flex items-center justify-between mt-10">
+              <Form.Item
+                name="files"
+                label="Files (optional, multiple)"
+                className="md:col-span-2"
+              >
+                <Upload
+                  multiple
+                  beforeUpload={() => false}
+                  fileList={selectedFiles}
+                  onChange={({ fileList }) => setSelectedFiles(fileList)}
+                >
+                  <CustomButton icon={<UploadOutlined />} />
+                </Upload>
+              </Form.Item>
               <CustomButton
                 icon={<SendOutlined />}
                 value="Send to AI"

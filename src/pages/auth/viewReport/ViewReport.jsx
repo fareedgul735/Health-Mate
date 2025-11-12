@@ -1,13 +1,19 @@
-import { useEffect, useState } from "react";
-import { Card, Table, Tag, Dropdown, Menu, Tooltip } from "antd";
-import { Eye, Download, FileText, MoreVertical } from "lucide-react";
+import { useEffect, useState, useRef } from "react";
+import { Card, Table, Tag, Dropdown, Menu, Tooltip, Modal } from "antd";
+import { Download, FileText, MoreVertical } from "lucide-react";
 import { CustomButton } from "../../../components/button/Button.jsx";
 import { Link } from "react-router-dom";
+import html2canvas from "html2canvas-oklch";
+import jsPDF from "jspdf";
 import { getReportsWithAiSummary } from "../../../utils/helpers/helpers.js";
 
 const ViewReport = () => {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [selectedReport, setSelectedReport] = useState(null);
+  const [aiData, setAiData] = useState([]);
+  const printRef = useRef();
 
   useEffect(() => {
     const fetchReports = async () => {
@@ -16,6 +22,7 @@ const ViewReport = () => {
         const response = await getReportsWithAiSummary();
         if (response?.success) {
           setReports(response?.tableData || []);
+          setAiData(response?.aiValue || []);
         }
       } catch (err) {
         console.error("Error fetching reports:", err);
@@ -23,9 +30,45 @@ const ViewReport = () => {
         setLoading(false);
       }
     };
-
     fetchReports();
   }, []);
+
+  const handleOpen = (record) => {
+    setSelectedReport(record);
+    setOpen(true);
+  };
+
+  const handleCancel = () => {
+    setOpen(false);
+    setSelectedReport(null);
+  };
+
+  const handleDownload = async () => {
+    const element = printRef.current;
+    if (!element) return;
+
+    const canvas = await html2canvas(element, { scale: 2, useCORS: true });
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("p", "mm", "a4");
+
+    const imgWidth = 190;
+    const pageHeight = 295;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    let heightLeft = imgHeight;
+    let position = 10;
+
+    pdf.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
+    heightLeft -= pageHeight;
+
+    while (heightLeft > 0) {
+      position = heightLeft - imgHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+    }
+
+    pdf.save(`${selectedReport.title || "report"}_summary.pdf`);
+  };
 
   const menu = (record) => (
     <Menu
@@ -33,32 +76,13 @@ const ViewReport = () => {
         {
           key: "1",
           label: (
-            <Tooltip title="View report details">
+            <Tooltip title="View report details + AI response">
               <span className="flex items-center gap-2">
-                <Eye className="w-4 h-4" /> View Details
+                <FileText className="w-4 h-4" /> View Details + Download 
               </span>
             </Tooltip>
           ),
-          onClick: () => {
-            console.log("View report:", record);
-          },
-        },
-        {
-          key: "2",
-          label: (
-            <Tooltip title="Download the report file">
-              <span className="flex items-center gap-2">
-                <Download className="w-4 h-4" /> Download Report
-              </span>
-            </Tooltip>
-          ),
-          onClick: () => {
-            if (record?.fileUrl) {
-              window.open(record.fileUrl, "_blank");
-            } else {
-              console.warn("No file URL found for report:", record);
-            }
-          },
+          onClick: () => handleOpen(record),
         },
       ]}
     />
@@ -109,6 +133,10 @@ const ViewReport = () => {
     },
   ];
 
+  const selectedAiData = aiData.find(
+    (item) => item.reportId === selectedReport?.key
+  );
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 to-blue-100 p-8">
       <div className="max-w-6xl mx-auto space-y-8">
@@ -140,6 +168,68 @@ const ViewReport = () => {
           />
         </Card>
       </div>
+
+      <Modal
+        open={open}
+        onCancel={handleCancel}
+        title="AI Report Summary"
+        centered
+        width={900}
+        footer={[
+          <CustomButton
+            key="download"
+            icon={<Download className="w-4 h-4" />}
+            value="Download Summary"
+            onClick={handleDownload}
+          />,
+        ]}
+      >
+        {selectedReport && (
+          <div ref={printRef} className="p-4 space-y-4">
+            <h2 className="text-xl font-bold">{selectedReport.title}</h2>
+            <p className="text-gray-500">
+              Doctor: {selectedReport.doctor || "N/A"} | Date:{" "}
+              {selectedReport.date}
+            </p>
+
+            {selectedAiData ? (
+              <div className="border rounded-lg p-4 bg-white shadow">
+                <h3 className="font-semibold mb-2">AI Summary</h3>
+                <p>{selectedAiData.aiResponseData?.summary || "No summary"}</p>
+
+                {selectedAiData.aiResponseData?.keyFindings && (
+                  <>
+                    <h3 className="font-semibold mt-4">Key Findings</h3>
+                    <ul className="list-disc pl-5">
+                      {selectedAiData.aiResponseData.keyFindings.map((f, i) => (
+                        <li key={i}>{f}</li>
+                      ))}
+                    </ul>
+                  </>
+                )}
+              </div>
+            ) : (
+              <p>No AI data available</p>
+            )}
+
+            {selectedAiData?.files?.length > 0 && (
+              <div>
+                <h3 className="font-semibold mb-2">Attached Files</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {selectedAiData.files.map((file, i) => (
+                    <img
+                      key={i}
+                      src={file.url}
+                      alt="report file"
+                      className="rounded-lg shadow border"
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </Modal>
     </div>
   );
 };

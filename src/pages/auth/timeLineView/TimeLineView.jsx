@@ -80,7 +80,6 @@ const TimeLineView = () => {
         <h1 className="text-3xl font-bold text-gray-800 text-center mb-10">
           🩺 Health Activity Timeline
         </h1>
-
         <Card className="rounded-2xl shadow-lg border-none bg-white/80 backdrop-blur-sm">
           {loading ? (
             <div className="flex justify-center items-center p-10">
