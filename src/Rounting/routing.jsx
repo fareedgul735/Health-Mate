@@ -13,6 +13,7 @@ import UploadReport from "../pages/auth/uploadReport/UploadReports.jsx";
 import LandingPage from "../pages/nonAuth/landing/Landing.jsx";
 import NonAutherized from "../pages/nonAuth/nonAutherized/NonAutherized.jsx";
 import Family from "../pages/auth/family/Family.jsx";
+import AuthSuccess from "../pages/auth/authSuccess/AuthSuccess.jsx";
 
 const router = createBrowserRouter([
   {
@@ -31,8 +32,10 @@ const router = createBrowserRouter([
       { path: "login", element: <Login /> },
       { path: "signup", element: <Signup /> },
       { path: "forgottenPassword", element: <ForgetPassword /> },
+      { path: "/auth/success", element: <AuthSuccess /> },
     ],
   },
+
   {
     element: <AuthLayout />,
     children: [

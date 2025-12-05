@@ -8,6 +8,7 @@ import { useState } from "react";
 import Loading from "../../../components/loader/Loading";
 import { LoginIcon } from "../../../components/icons/Icons";
 import { CheckCircle } from "lucide-react";
+import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -90,6 +91,20 @@ const Login = () => {
               />
             </Form.Item>
           </Form>
+
+          <CustomButton
+            className="w-full"
+            value={"Continue With Google"}
+            onClick={() =>
+              (window.location.href =
+                "http://localhost:5000/api/authorized/google")
+            }
+            icon={
+              <span className="w-6 h-6 bg-white rounded-full flex justify-center items-center">
+                <FcGoogle />
+              </span>
+            }
+          />
           <div className="wrapper  mt-12 flex flex-col justify-center items-center gap-[12px] p-[12px]">
             <Link
               to={"/forgottenPassword"}

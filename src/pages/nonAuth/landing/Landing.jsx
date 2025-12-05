@@ -1,3 +1,4 @@
+import ScrollReveal from "../../../lib/ScrolReveal";
 import FAQSection from "../faq/Faq";
 import FeaturesSection from "../features/Features";
 import HeroSection from "../heroSection/HeroSection";
@@ -8,19 +9,29 @@ const LandingPage = () => {
   return (
     <div className="min-h-screen flex flex-col items-center text-center px-4">
       <div>
-        <HeroSection />
+        <ScrollReveal>
+          <HeroSection />
+        </ScrollReveal>
       </div>
       <div>
-        <FeaturesSection />
+        <ScrollReveal>
+          <FeaturesSection />
+        </ScrollReveal>
       </div>
       <div>
-        <HowItWorks />
+        <ScrollReveal>
+          <HowItWorks />
+        </ScrollReveal>
       </div>
       <div>
-        <FAQSection />
+        <ScrollReveal>
+          <FAQSection />
+        </ScrollReveal>
       </div>
       <div>
-        <GetStartedSection />
+        <ScrollReveal>
+          <GetStartedSection />
+        </ScrollReveal>
       </div>
     </div>
   );
