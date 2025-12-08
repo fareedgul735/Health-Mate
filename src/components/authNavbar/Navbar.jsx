@@ -15,7 +15,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="w-screen p-3 flex justify-between items-center md:p-4 lg:p-5">
+      <div className="w-screen p-[12px] flex justify-between items-center md:p-4 lg:p-5">
         <div className="flex items-center space-x-2 slide-up">
           <div className="w-8 h-8 bg-gradient-to-r from-sky-400 to-blue-600 rounded-full flex items-center justify-center text-white font-bold">
             <LogoIcon />

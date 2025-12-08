@@ -137,13 +137,18 @@ export const uploadReportAiInfo = async (data) => {
 
     Object.keys(data).forEach((key) => {
       if (key !== "files") {
-        formData.append(key, data[key]);
+        let value = data[key];
+        if (value?._isAMomentObject) value = value.format("YYYY-MM-DD");
+        formData.append(key, value);
       }
     });
 
     if (data.files && data.files.length > 0) {
       data.files.forEach((fileObj) => {
-        formData.append("files", fileObj.originFileObj || fileObj);
+        const file = fileObj.originFileObj || fileObj;
+        if (file instanceof File) {
+          formData.append("files", file);
+        }
       });
     }
 

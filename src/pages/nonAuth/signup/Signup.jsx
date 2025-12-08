@@ -15,6 +15,7 @@ import {
 } from "../../../components/icons/Icons";
 import Loading from "../../../components/loader/Loading";
 import { FaCheckCircle, FaShieldAlt } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -97,6 +98,7 @@ const Signup = () => {
   const handlePrev = () => {
     if (step > 0) setStep(step - 1);
   };
+  
   return (
     <div className="min-w-screen p-[12px] gap-[122px] flex-col lg:flex-row flex justify-center items-center">
       {contextHolder}
@@ -200,6 +202,19 @@ const Signup = () => {
             </div>
           </div>
         </Form>
+        <CustomButton
+          className="w-full mt-6"
+          value={"Continue With Google"}
+          onClick={() =>
+            (window.location.href =
+              "http://localhost:5000/api/authorized/google")
+          }
+          icon={
+            <span className="w-6 h-6 bg-white rounded-full flex justify-center items-center">
+              <FcGoogle />
+            </span>
+          }
+        />
 
         <div className="wrapper mt-12 flex flex-col justify-center items-center gap-3 text-sm">
           <p>
