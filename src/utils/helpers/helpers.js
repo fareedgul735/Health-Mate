@@ -129,40 +129,21 @@ export const getuserName = async () => {
   }
 };
 
-export const uploadReportAiInfo = async (data) => {
+export const uploadReportAiInfo = async (formData) => {
   try {
     const token = localStorage.getItem("token");
 
-    const formData = new FormData();
-
-    Object.keys(data).forEach((key) => {
-      if (key !== "files") {
-        let value = data[key];
-        if (value?._isAMomentObject) value = value.format("YYYY-MM-DD");
-        formData.append(key, value);
-      }
-    });
-
-    if (data.files && data.files.length > 0) {
-      data.files.forEach((fileObj) => {
-        const file = fileObj.originFileObj || fileObj;
-        if (file instanceof File) {
-          formData.append("files", file);
-        }
-      });
-    }
-
     const res = await axios.post(UploadReportAi, formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
       },
     });
 
-    console.log(res);
     return res;
   } catch (err) {
     console.log(err);
+    throw err;
   }
 };
 

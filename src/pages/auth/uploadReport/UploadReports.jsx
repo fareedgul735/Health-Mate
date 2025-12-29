@@ -47,26 +47,45 @@ const UploadReports = () => {
   const [showFormDrawer, setShowFormDrawer] = useState(false);
 
   const handleSend = async () => {
+    if (loadingAi) return; 
+
     try {
+      setLoadingAi(true);
+
       const values = await form.validateFields();
 
       const formData = new FormData();
 
-      Object.keys(values).forEach((key) => {
-        if (values[key] !== undefined && values[key] !== null) {
-          if (values[key]?._isAMomentObject) {
-            formData.append(key, values[key].format("YYYY-MM-DD"));
+      Object.entries(values).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          if (value?._isAMomentObject) {
+            formData.append(key, value.format("YYYY-MM-DD"));
           } else {
-            formData.append(key, values[key]);
+            formData.append(key, value);
           }
         }
       });
 
+      formData.append(
+        "aiPrompt",
+        inputValue?.trim() || "Analyzing my medical report..."
+      );
+
       selectedFiles.forEach((file) => {
-        if (file.originFileObj) {
+        if (file?.originFileObj) {
           formData.append("files", file.originFileObj);
         }
       });
+
+      for (let pair of formData.entries()) {
+        console.log(pair[0], pair[1]);
+      }
+
+      const res = await uploadReportAiInfo(formData);
+
+      if (!res?.data?.success) {
+        throw new Error(res?.data?.message || "AI failed");
+      }
 
       const userMessage = {
         role: "user",
@@ -74,45 +93,36 @@ const UploadReports = () => {
         files:
           selectedFiles.length > 0 ? selectedFiles.map((f) => f.name) : null,
       };
-      setMessages([...messages, userMessage]);
+
+      const ai = res.data.aiResponse;
+
+      const aiMessage = {
+        role: "assistant",
+        content: `🤖 **AI Analysis Summary**\n\n${
+          ai.summary
+        }\n\n**Key Findings:**\n${
+          ai.keyFindings?.map((f) => `• ${f}`).join("\n") || "None"
+        }\n\n**Recommendations:**\n${
+          ai.recommendations?.map((r) => `• ${r}`).join("\n") || "None"
+        }\n\n🩺 Urgency: ${
+          ai.urgencyLevel || "Not specified"
+        }\n🔍 Confidence: ${(ai.confidence * 100).toFixed(0)}%`,
+      };
+
+      setMessages((prev) => [...prev, userMessage, aiMessage]);
+      setAiResponse(ai);
+
+      form.resetFields();
+      setSelectedFiles([]);
       setInputValue("");
-      setLoadingAi(true);
-      setAiResponse(null);
 
-      const res = await uploadReportAiInfo(formData, true); 
-      console.log("AI RESPONSE:", res);
-
-      if (res?.data?.aiResponse) {
-        setAiResponse(res.data.aiResponse);
-
-        const aiMessage = {
-          role: "assistant",
-          content: `🤖 **AI Analysis Summary**\n\n${
-            res.data.aiResponse.summary
-          }\n\n**Key Findings:**\n${
-            res.data.aiResponse.keyFindings?.map((f) => `• ${f}`).join("\n") ||
-            "None"
-          }\n\n**Recommendations:**\n${
-            res.data.aiResponse.recommendations
-              ?.map((r) => `• ${r}`)
-              .join("\n") || "None"
-          }\n\n🩺 Urgency: ${
-            res.data.aiResponse.urgencyLevel || "Not specified"
-          }\n🔍 Confidence: ${(res.data.aiResponse.confidence * 100).toFixed(
-            0
-          )}%`,
-        };
-        setMessages((prev) => [...prev, aiMessage]);
-
-        form.resetFields();
-        setSelectedFiles([]);
-        messageApi.success("AI analyzed your report successfully!");
-      } else {
-        messageApi.error("AI could not analyze your data. Try again.");
-      }
+      messageApi.success("AI analyzed your report successfully!");
     } catch (error) {
-      console.error(error);
-      messageApi.error("Please fill all required fields!");
+      console.error("❌ Upload Error:", error);
+
+      const backendMsg = error?.response?.data?.message || error.message;
+
+      messageApi.error(backendMsg || "Something went wrong!");
     } finally {
       setLoadingAi(false);
     }
@@ -143,23 +153,12 @@ const UploadReports = () => {
         </div>
       )}
 
-      <div className="bg-white/90 backdrop-blur-sm border-b border-gray-200 px-6 py-4 flex items-center justify-between shadow-sm">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center shadow-lg">
-            <RobotOutlined className="text-white text-xl" />
-          </div>
-          <div>
-            <h1 className="text-lg font-semibold text-gray-800">
-              HealthMate AI
-            </h1>
-            <p className="text-xs text-gray-500">Medical Report Assistant</p>
-          </div>
-        </div>
+      <div className="flex items-center justify-end py-4 px-4">
         <Tooltip
           title="Required Fields"
           color="red"
           placement="bottom"
-          trigger={"hover"}
+          open={true}
         >
           <span>
             {" "}
